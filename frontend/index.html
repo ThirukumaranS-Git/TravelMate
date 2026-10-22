@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TravelMate - Smart Tourist and Trip Planning Website">
+  <title>TravelMate | Smart Tourist & Trip Planning</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIINfQ3dS7zqDOPm5iSg7fM3m2t9Qk0Q2QE=" crossorigin="">
+</head>
+<body>
+<header class="site-header">
+  <nav class="nav container" aria-label="Main navigation">
+    <a href="#home" class="brand" data-route="home"><span class="brand-mark">✈</span> TravelMate</a>
+    <button class="menu-toggle" aria-label="Toggle menu">☰</button>
+    <div class="nav-links">
+      <a href="#home" data-route="home">Home</a>
+      <a href="#explore" data-route="explore">Explore</a>
+      <a href="#planner" data-route="planner">Plan Trip</a>
+      <a href="#map" data-route="map">Map</a>
+      <a href="#trips" data-route="trips">My Trips</a>
+      <a href="#wishlist" data-route="wishlist">Wishlist</a>
+      <a href="#feedback" data-route="feedback">Feedback</a>
+      <a href="#xml" data-route="xml">XML Tools</a>
+    </div>
+    <button id="loginNav" class="outline-btn small">Login</button>
+  </nav>
+</header>
+
+<main>
+  <section id="view-home" class="view active">
+    <div class="hero container">
+      <div class="hero-copy">
+        <span class="eyebrow">Simple planning. Smarter trips.</span>
+        <h1>Plan a trip that can <span>adapt.</span></h1>
+        <p>Discover places, build an itinerary, track your budget, and test what happens when your travel conditions change.</p>
+        <div class="hero-actions">
+          <button class="primary-btn" data-route="planner">Plan My Trip</button>
+          <button class="outline-btn" data-route="explore">Explore Places</button>
+        </div>
+        <div class="hero-stats">
+          <div><strong id="destCount">9</strong><span>Destinations</span></div>
+          <div><strong>24/7</strong><span>Plan access</span></div>
+          <div><strong>1</strong><span>Smart simulator</span></div>
+        </div>
+      </div>
+      <div class="hero-card">
+        <div class="mini-map-gradient">
+          <div class="route-line"></div>
+          <span class="pin p1">📍</span><span class="pin p2">📍</span><span class="pin p3">📍</span>
+          <div class="map-label">Try: Ooty → Museum → Lake → Viewpoint</div>
+        </div>
+        <div class="hero-card-body">
+          <strong>What-If Simulator</strong>
+          <p>Change rain, crowd, budget or time and see a new plan.</p>
+          <button class="text-btn" data-route="planner">Try the demo →</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="container section-pad">
+      <div class="section-heading"><div><span class="eyebrow">Popular</span><h2>Places to explore</h2></div><button class="text-btn" data-route="explore">View all</button></div>
+      <div id="homeDestinations" class="card-grid three"></div>
+    </section>
+
+    <section class="container section-pad split-feature">
+      <div class="info-card simple-gradient">
+        <span class="eyebrow">HTML5 demo</span>
+        <h3>Listen before you go</h3>
+        <p>Destination pages include a small audio guide and a local video area.</p>
+        <audio controls preload="metadata" src="assets/travelmate-guide.wav"></audio><video controls preload="metadata" width="100%" style="margin-top:12px;border-radius:10px"><source src="assets/destination-demo.mp4" type="video/mp4">Your browser does not support video.</video>
+      </div>
+      <div class="info-card">
+        <span class="eyebrow">Why TravelMate?</span>
+        <h3>One trip, different possibilities</h3>
+        <p>Instead of fixing one plan, TravelMate lets you test a few realistic changes before you travel.</p>
+        <button class="primary-btn" data-route="planner">Open simulator</button>
+      </div>
+    </section>
+  </section>
+
+  <section id="view-explore" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">Explore</span><h2>Find your next place</h2></div><button class="outline-btn" id="nearMeBtn">📍 Find Places Near Me</button></div>
+    <form id="filterForm" class="filter-panel" novalidate>
+      <label>Search<input id="searchInput" type="search" placeholder="e.g. Ooty, beach, museum"></label>
+      <label>Category<select id="categoryFilter"><option value="all">All</option><option>Hill Station</option><option>Beach</option><option>Historical</option><option>Nature</option><option>Adventure</option><option>Wildlife</option><option>Food</option></select></label>
+      <label>Max Budget<input id="budgetFilter" type="number" min="0" placeholder="₹"></label>
+      <label>Rating<select id="ratingFilter"><option value="0">Any</option><option value="4">4+</option><option value="4.5">4.5+</option></select></label>
+      <label>Type<select id="typeFilter"><option value="all">All</option><option value="indoor">Indoor</option><option value="outdoor">Outdoor</option></select></label>
+    </form>
+    <div id="nearMeStatus" class="status" hidden></div>
+    <div id="exploreGrid" class="card-grid three"></div>
+  </section>
+
+  <section id="view-planner" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">React-style planner demo</span><h2>Smart Trip Planner</h2></div><span class="tag">Student Project</span></div>
+    <div class="planner-layout">
+      <form id="tripForm" class="panel" novalidate>
+        <h3>1. Trip details</h3>
+        <div class="form-grid">
+          <label>Destination<select id="tripDestination"><option>Ooty</option><option>Kodaikanal</option><option>Munnar</option><option>Coorg</option><option>Chennai</option></select></label>
+          <label>Travel Date<input id="tripDate" type="date" required></label>
+          <label>Days<input id="tripDays" type="number" min="1" max="7" value="2" required></label>
+          <label>People<input id="tripPeople" type="number" min="1" value="2" required></label>
+          <label>Budget (₹)<input id="tripBudget" type="number" min="500" value="8000" required></label>
+          <label>Transport<select id="tripTransport"><option>Mixed</option><option>Car</option><option>Public Transport</option><option>Walking</option></select></label>
+          <label>Walking<select id="tripWalking"><option>Medium</option><option>High</option><option>Low</option></select></label>
+          <label>Activity<select id="tripActivity"><option>Nature</option><option>Adventure</option><option>History</option><option>Food</option></select></label>
+        </div>
+        <button class="primary-btn" type="submit">Generate Itinerary</button>
+        <div id="tripFormError" class="error" role="alert"></div>
+      </form>
+
+      <section class="panel itinerary-panel" aria-live="polite">
+        <div class="panel-header"><h3>2. Your itinerary</h3><button id="saveTripBtn" class="outline-btn small">Save Trip</button></div>
+        <div id="itineraryContent" class="empty-state">Enter your trip details and generate a simple day plan.</div>
+        <svg id="itinerarySvg" class="itinerary-svg" viewBox="0 0 600 80" role="img" aria-label="Trip route timeline">
+          <line x1="40" y1="40" x2="560" y2="40" class="svg-line"></line>
+          <circle cx="40" cy="40" r="10" class="svg-dot"></circle><circle cx="210" cy="40" r="10" class="svg-dot"></circle><circle cx="390" cy="40" r="10" class="svg-dot"></circle><circle cx="560" cy="40" r="10" class="svg-dot"></circle>
+          <text x="24" y="70" class="svg-text">Start</text><text x="191" y="70" class="svg-text">Place 1</text><text x="372" y="70" class="svg-text">Place 2</text><text x="545" y="70" class="svg-text">End</text>
+        </svg>
+      </section>
+    </div>
+
+    <section class="panel whatif-panel">
+      <div class="panel-header"><div><span class="eyebrow">Main novelty</span><h3>3. What-If Smart Itinerary Simulator</h3></div><span id="simulatorBadge" class="tag">Waiting for itinerary</span></div>
+      <div class="whatif-controls">
+        <label>Weather<select id="simWeather"><option>Normal</option><option>Rainy</option><option>Very Hot</option><option>Windy</option></select></label>
+        <label>Crowd<select id="simCrowd"><option>Medium</option><option>Low</option><option>High</option></select></label>
+        <label>Time<select id="simTime"><option>Full Day</option><option>6 Hours</option><option>4 Hours</option><option>2 Hours</option></select></label>
+        <label>Budget Change<select id="simBudget"><option>Original</option><option>-10%</option><option>-20%</option><option>-30%</option></select></label>
+        <label>Walking<select id="simWalking"><option>Medium</option><option>High</option><option>Low</option></select></label>
+        <label>Transport<select id="simTransport"><option>Mixed</option><option>Car</option><option>Public Transport</option><option>Walking</option></select></label>
+      </div>
+      <button id="adaptBtn" class="primary-btn">Adapt My Plan</button>
+      <div id="whatifResult" class="whatif-result"></div>
+    </section>
+  </section>
+
+  <section id="view-map" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">Map</span><h2>Trip places</h2></div><button id="mapCurrentBtn" class="outline-btn">📍 My location</button></div>
+    <div id="map" class="map-box"></div>
+    <div id="mapFallback" class="status" hidden>Map tiles need an internet connection. The itinerary list below still works.</div>
+    <div id="mapPlaces" class="list-grid"></div>
+  </section>
+
+  <section id="view-trips" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">My Trips</span><h2>Saved plans</h2></div></div>
+    <div id="tripsList" class="list-grid"></div>
+  </section>
+
+  <section id="view-wishlist" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">Wishlist</span><h2>Places you saved</h2></div></div>
+    <div id="wishlistGrid" class="card-grid three"></div>
+  </section>
+
+  <section id="view-feedback" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">Feedback</span><h2>Tell us what to improve</h2></div></div>
+    <form id="feedbackForm" class="panel narrow" novalidate>
+      <label>Name<input id="feedbackName" type="text" required></label>
+      <label>Email<input id="feedbackEmail" type="email" required></label>
+      <label>Rating<input id="feedbackRating" type="range" min="1" max="5" value="4"><output id="feedbackRatingValue">4</output>/5</label>
+      <label>Suggestion<textarea id="feedbackText" rows="5" required></textarea></label>
+      <button class="primary-btn" type="submit">Submit Feedback</button>
+      <div id="feedbackMsg" class="success" role="status"></div>
+    </form>
+  </section>
+
+  <section id="view-xml" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">XML Lab</span><h2>Trip XML Formatter & Validator</h2></div></div>
+    <div class="xml-layout">
+      <div class="panel">
+        <h3>XML Input</h3>
+        <textarea id="xmlInput" rows="16" spellcheck="false"></textarea>
+        <div class="button-row"><button id="formatXmlBtn" class="outline-btn">Format XML</button><button id="validateXmlBtn" class="primary-btn">Validate XML</button><button id="loadSampleXml" class="text-btn">Load Sample</button></div>
+        <div id="xmlMsg" class="status"></div>
+      </div>
+      <div class="panel">
+        <h3>DTD used by TravelMate</h3>
+        <pre id="dtdPreview"></pre>
+        <small>The validation panel performs a simple structural check in the browser; the DTD file is also included in the project for the lab demonstration.</small>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-login" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">Account</span><h2>Login</h2></div></div>
+    <form id="loginForm" class="panel narrow" novalidate>
+      <label>Email<input type="email" id="loginEmail" required></label>
+      <label>Password<input type="password" id="loginPassword" minlength="6" required></label>
+      <button class="primary-btn" type="submit">Login</button>
+      <div id="loginMsg" class="status"></div>
+    </form>
+  </section>
+
+  <section id="view-admin" class="view container page-pad">
+    <div class="page-title"><div><span class="eyebrow">Admin</span><h2>Simple Admin Preview</h2></div><span class="tag">AngularJS module in /admin</span></div>
+    <div class="dashboard-cards" id="adminStats"></div>
+    <div class="panel"><h3>Recent Feedback</h3><div id="adminFeedback"></div></div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div><strong>TravelMate</strong><p>Student Web Technologies Project</p></div>
+    <div class="footer-links"><a href="#planner">Plan</a><a href="#explore">Explore</a><a href="#xml">XML Tools</a><a href="../admin/index.html">Admin</a></div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qijJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="app.js"></script>
+</body>
+</html>

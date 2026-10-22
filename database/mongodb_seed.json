@@ -1,0 +1,5 @@
+[
+  {"destination":"Ooty","tags":["nature","family","hill_station"],"crowd":{"morning":"low","afternoon":"high","evening":"medium"},"indoor_alternatives":["Tea Museum","Indoor Gallery"],"travel_tips":["Carry warm clothes","Avoid weekend traffic"]},
+  {"destination":"Munnar","tags":["tea","nature","family"],"crowd":{"morning":"low","afternoon":"medium","evening":"medium"},"indoor_alternatives":["Tea Museum"],"travel_tips":["Carry water","Start sightseeing early"]},
+  {"destination":"Kodaikanal","tags":["lake","nature","hill_station"],"crowd":{"morning":"low","afternoon":"high","evening":"medium"},"indoor_alternatives":["Local museum"],"travel_tips":["Carry a light jacket","Check road conditions"]}
+]

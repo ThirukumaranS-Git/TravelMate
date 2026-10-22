@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<trip>
+  <destination>Ooty</destination>
+  <day number="1">
+    <place>Botanical Garden</place>
+    <time>09:00</time>
+  </day>
+  <day number="1">
+    <place>Tea Museum</place>
+    <time>12:30</time>
+  </day>
+</trip>

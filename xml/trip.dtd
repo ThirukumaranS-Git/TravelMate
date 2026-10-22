@@ -1,0 +1,6 @@
+<!ELEMENT trip (destination, day+)>
+<!ELEMENT destination (#PCDATA)>
+<!ELEMENT day (place, time)>
+<!ATTLIST day number CDATA #REQUIRED>
+<!ELEMENT place (#PCDATA)>
+<!ELEMENT time (#PCDATA)>

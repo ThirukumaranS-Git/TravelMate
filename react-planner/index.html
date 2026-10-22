@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>TravelMate React Planner</title>
+<style>body{font-family:Arial,sans-serif;background:#f6f7f3;margin:0;color:#263238}.wrap{max-width:800px;margin:40px auto;padding:24px}.card{background:#fff;border:1px solid #dce3df;border-radius:16px;padding:22px;box-shadow:0 8px 20px rgba(0,0,0,.06)}label{display:block;margin:12px 0;font-size:14px;font-weight:700}input,select,button{padding:10px;border:1px solid #ccd7d2;border-radius:8px;font:inherit}select,input{width:100%;margin-top:6px}.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{background:#2f7d69;color:#fff;border:0;cursor:pointer;margin-top:10px}.item{padding:12px;border:1px solid #e0e7e3;border-radius:10px;margin:8px 0}@media(max-width:600px){.row{grid-template-columns:1fr}}</style>
+</head><body><div id="root"></div>
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+const {useState}=React;
+function Planner(){const [destination,setDestination]=useState('Ooty');const [days,setDays]=useState(2);const [budget,setBudget]=useState(8000);const [plan,setPlan]=useState([]);
+function generate(){const base=destination==='Ooty'?['Botanical Garden','Tea Museum','Ooty Lake','Doddabetta Viewpoint']:destination==='Munnar'?['Tea Museum','Tea Gardens','Mattupetty Dam','Echo Point']:['Coaker\'s Walk','Pine Forest','Bryant Park','Kodaikanal Lake'];setPlan(base.slice(0,Math.min(4,Math.max(2,days*2))));}
+return <div className="wrap"><div className="card"><h1>TravelMate React Smart Planner</h1><p>Small ReactJS module used by the main TravelMate project.</p><div className="row"><label>Destination<select value={destination} onChange={e=>setDestination(e.target.value)}><option>Ooty</option><option>Kodaikanal</option><option>Munnar</option></select></label><label>Days<input type="number" min="1" max="7" value={days} onChange={e=>setDays(Number(e.target.value))}/></label></div><label>Budget (₹)<input type="number" value={budget} onChange={e=>setBudget(Number(e.target.value))}/></label><button className="btn" onClick={generate}>Generate React Itinerary</button>{plan.length>0&&<div style={{marginTop:20}}><h3>{destination} – {days} day plan</h3>{plan.map((p,i)=><div className="item" key={p}>{i+1}. {p}</div>)}<p><b>Budget:</b> ₹{budget}</p></div>}</div></div>}
+ReactDOM.createRoot(document.getElementById('root')).render(<Planner/>);
+</script></body></html>

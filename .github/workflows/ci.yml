@@ -1,0 +1,20 @@
+name: TravelMate CI
+on:
+  push:
+  pull_request:
+jobs:
+  basic-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: 22}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - name: Check frontend files
+        run: test -f frontend/index.html && test -f frontend/app.js && test -f frontend/styles.css
+      - name: Python syntax check
+        run: python -m compileall backend tests
+      - name: Node syntax check
+        working-directory: services
+        run: node --check server.js
